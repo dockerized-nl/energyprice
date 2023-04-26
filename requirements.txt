@@ -1,8 +1,7 @@
-import requests
-import psycopg2
-import rich
-import json
-import matplotlib.pyplot as plt
-from datetime import datetime
-from datetime import timedelta
-from twilio.rest import Client
+requests
+psycopg2
+rich
+json
+matplotlib.pyplot
+datetime 
+twilio.rest
