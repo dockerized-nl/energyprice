@@ -1,7 +1,6 @@
 requests
 psycopg2
 rich
-json
-matplotlib.pyplot
+matplotlib
 datetime 
-twilio.rest
+twilio
