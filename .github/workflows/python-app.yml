@@ -6,10 +6,8 @@ name: Price action workflow
 on:
   pull_request:
     branches: [ "main" ]
-  push:
-    branches: [ "main" ]
   schedule:
-    - cron: '05 15 * * *'
+    - cron: '55 15 * * *'
     
 permissions:
   contents: read
