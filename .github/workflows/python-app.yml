@@ -4,13 +4,11 @@
 name: Price action workflow
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  workflow_dispatch:
+  schedule:
+    - cron: "15 15 * * *"
     
-
 permissions:
   contents: read
 
