@@ -6,6 +6,7 @@ import json
 import matplotlib.pyplot as plt
 from datetime import datetime
 from datetime import timedelta
+import os
 
 current_date = datetime.now()
 yesterday_date = current_date - timedelta(days=1)
@@ -29,11 +30,27 @@ values = []
 for item in output_page['Prices']:
     labels.append(item['readingDate'].split('T')[-1].replace('Z', '')[:2])
     values.append(item['price'])
-    
-plt.bar(labels, values)
 
-plt.xlabel('Tijd')
-plt.ylabel('Prijs')
+##################################################
+# genreer SMS / MMS van deze laagste uren.
+##################################################
+account_sid = os.environ['ACCOUNT_SID']
+auth_token = os.environ['TWILIO_API_TOKEN']
+client = Client(account_sid, auth_token)
 
-plt.title('Prijs per uur')
-plt.savefig(f'images/price_plot_{current_date.strftime("%Y-%m-%d")}.png')
+twilio_number = os.environ['FROM_NUMBER']
+
+if ',' in os.environ['TEL_NUMBER']:
+    phonenumbers = os.environ['TEL_NUMBER'].split(',')
+else:
+    phonenumbers = [os.environ['TEL_NUMBER']]
+
+for number in phonenumbers:
+    message = client.messages.create(
+        from_= f"whatsapp:+{twilio_number}",
+        body=output,
+        media_url='https://raw.githubusercontent.com/dockerized-nl/energyprice/main/images/price_plot_2023-04-28.png',
+        to=f"whatsapp:+{number}"
+    )
+
+print(message.sid)

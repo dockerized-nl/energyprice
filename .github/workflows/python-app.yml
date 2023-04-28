@@ -41,3 +41,11 @@ jobs:
         git add .
         git commit -m "generated"
         git push
+    - name: Run send-price.py
+      run: |
+        python send-price.py
+      env:
+          ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
+          FROM_NUMBER: ${{ secrets.FROM_NUMBER }}
+          TEL_NUMBER:  ${{ secrets.TEL_NUMBER }}
+          TWILIO_API_TOKEN:  ${{ secrets.TWILIO_API_TOKEN }}
