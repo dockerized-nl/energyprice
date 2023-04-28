@@ -28,7 +28,7 @@ for item in output_page['Prices']:
     values.append(item['price'])
 
 ##################################################
-# Generate Whatsapp 
+# Generate Whatsapp
 ##################################################
 account_sid = os.environ['ACCOUNT_SID']
 auth_token = os.environ['TWILIO_API_TOKEN']
@@ -45,7 +45,7 @@ print(phonenumbers)
 
 for number in phonenumbers:
     message = client.messages.create(
-        from_= f"whatsapp:+{twilio_number}",
+        from =f"whatsapp:+{twilio_number}",
         body=output,
         media_url=f"https://raw.githubusercontent.com/dockerized-nl/energyprice/main/images/price_plot_{current_date.strftime('%Y-%m-%d')}.png",
         to=f"whatsapp:+{number}"
