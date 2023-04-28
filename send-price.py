@@ -1,18 +1,15 @@
 from twilio.rest import Client
 import requests
-import psycopg2
-import rich
-import json
 import matplotlib.pyplot as plt
 from datetime import datetime
 from datetime import timedelta
 import os
 
 current_date = datetime.now()
-yesterday_date = current_date - timedelta(days=1)
+tomorrow = current_date + timedelta(days=1)
 
 
-URL = f"https://api.energyzero.nl/v1/energyprices?fromDate={yesterday_date.strftime('%Y-%m-%d')}T00:00:00.000Z&tillDate={current_date.strftime('%Y-%m-%d')}T00:00:00.000Z&interval=4&usageType=1&inclBtw=true"
+URL = f"https://api.energyzero.nl/v1/energyprices?fromDate={current_date.strftime('%Y-%m-%d')}T15:00:00.000Z&tillDate={tomorrow.strftime('%Y-%m-%d')}T00:00:00.000Z&interval=4&usageType=1&inclBtw=true"
 page = requests.get(URL)
 
 output_page = page.json()

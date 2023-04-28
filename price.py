@@ -1,8 +1,5 @@
 from twilio.rest import Client
 import requests
-import psycopg2
-import rich
-import json
 import matplotlib.pyplot as plt
 from datetime import datetime
 from datetime import timedelta
