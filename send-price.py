@@ -45,6 +45,8 @@ if ',' in os.environ['TEL_NUMBER']:
 else:
     phonenumbers = [os.environ['TEL_NUMBER']]
 
+print(phonenumbers)
+
 for number in phonenumbers:
     message = client.messages.create(
         from_= f"whatsapp:+{twilio_number}",
