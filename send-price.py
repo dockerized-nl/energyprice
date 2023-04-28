@@ -9,7 +9,7 @@ current_date = datetime.now()
 tomorrow = current_date + timedelta(days=1)
 
 
-URL = f"https://api.energyzero.nl/v1/energyprices?fromDate={tomorrow.strftime('%Y-%m-%d')}T00:00:00.000Z&tillDate={tomorrow.strftime('%Y-%m-%d')}T23:00:00.000Z&interval=4&usageType=1&inclBtw=true"
+URL = f"https://api.energyzero.nl/v1/energyprices?fromDate={current_date.strftime('%Y-%m-%d')}T21:00:00.000Z&tillDate={tomorrow.strftime('%Y-%m-%d')}T21:00:00.000Z&interval=4&usageType=1&inclBtw=true"
 page = requests.get(URL)
 
 output_page = page.json()
