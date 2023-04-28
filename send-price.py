@@ -51,7 +51,7 @@ for number in phonenumbers:
         from_= f"whatsapp:+{twilio_number}",
         body=output,
         media_url=f"https://raw.githubusercontent.com/dockerized-nl/energyprice/main/images/price_plot_{current_date.strftime('%Y-%m-%d')}.png",
-        to=f"whatsapp:+31639136509"
+        to=f"whatsapp:+{number}"
     )
 
 print(message.sid)
