@@ -37,4 +37,4 @@ plt.xlabel('Tijd')
 plt.ylabel('Prijs')
 
 plt.title('Prijs per uur')
-plt.savefig(f'./images/price_plot_{current_date.strftime("%Y-%m-%d")}.png')
+plt.savefig(f'images/price_plot_{current_date.strftime("%Y-%m-%d")}.png')
