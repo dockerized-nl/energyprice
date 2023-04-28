@@ -32,13 +32,15 @@ for item in output_page['Prices']:
     values.append(item['price'])
 
 ##################################################
-# genreer SMS / MMS van deze laagste uren.
+# Generate Whatsapp message.
 ##################################################
 account_sid = os.environ['ACCOUNT_SID']
 auth_token = os.environ['TWILIO_API_TOKEN']
 client = Client(account_sid, auth_token)
 
-twilio_number = os.environ['FROM_NUMBER']
+twilio_number = os.environ.get('FROM_NUMBER')
+print(twilio_number )
+exit()
 
 if ',' in os.environ['TEL_NUMBER']:
     phonenumbers = os.environ['TEL_NUMBER'].split(',')
