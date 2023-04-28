@@ -8,7 +8,7 @@ on:
     branches: [ "main" ]
   schedule:
     # Runs "at minute 55 past every hour" (see https://crontab.guru)
-    - cron: '34 14 * * *'
+    - cron: '50 14 * * *'
     
 permissions:
   contents: read

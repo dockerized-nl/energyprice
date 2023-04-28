@@ -45,7 +45,7 @@ print(phonenumbers)
 
 for number in phonenumbers:
     message = client.messages.create(
-        from =f"whatsapp:+{twilio_number}",
+        from_ = f"whatsapp:+{twilio_number}",
         body=output,
         media_url=f"https://raw.githubusercontent.com/dockerized-nl/energyprice/main/images/price_plot_{current_date.strftime('%Y-%m-%d')}.png",
         to=f"whatsapp:+{number}"
