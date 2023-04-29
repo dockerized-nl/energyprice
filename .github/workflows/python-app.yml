@@ -7,8 +7,8 @@ on:
   pull_request:
     branches: [ "main" ]
   schedule:
-    # Runs "at minute 55 past every hour" (see https://crontab.guru)
-    - cron: '50 14 * * *'
+    # Runs "at minute 05 past 13 or 15 AMS time" (see https://crontab.guru)
+    - cron: '05 13 * * *'
     
 permissions:
   contents: read
