@@ -1,23 +1,36 @@
-from twilio.rest import Client
-import requests
-import matplotlib.pyplot as plt
-from datetime import datetime
-from datetime import timedelta
+import pytz
+from aiogram import Bot, Dispatcher, executor, types
+import rich
+import telebot
 import os
+from datetime import timedelta
+from datetime import datetime
+import matplotlib.pyplot as plt
+mport requests
 
-current_date = datetime.now()
-tomorrow = current_date + timedelta(days=1)
+
+current_date = datetime.now(pytz.timezone('Europe/Amsterdam'))
+yesterday = current_date + timedelta(days=-1)
 
 
-URL = f"https://api.energyzero.nl/v1/energyprices?fromDate={current_date.strftime('%Y-%m-%d')}T21:00:00.000Z&tillDate={tomorrow.strftime('%Y-%m-%d')}T20:00:00.000Z&interval=4&usageType=1&inclBtw=true"
+URL = f"https://api.energyzero.nl/v1/energyprices?fromDate={yesterday.strftime('%Y-%m-%d')}T22:00:00.000Z&tillDate={current_date.strftime('%Y-%m-%d')}T22:00:00.000Z&interval=4&usageType=1&inclBtw=true"
 page = requests.get(URL)
 
 output_page = page.json()
 
 output = ""
 
+average = output_page['average']
+
+
 for item in output_page['Prices']:
-    output += f"Tijd: {item['readingDate'].split('T')[-1].replace('Z','')[:2]} Prijs: {item['price']}"
+    hour = int(item['readingDate'].split('T')[-1].replace('Z', '')[:2])
+    hour += 2
+    if hour == 24:
+        hour = 00
+    elif hour == 25:
+        hour = 1
+    output += f"Tijd: {hour} Prijs: {item['price']}"
     output += "\n"
 
 labels = []
@@ -27,28 +40,31 @@ for item in output_page['Prices']:
     labels.append(item['readingDate'].split('T')[-1].replace('Z', '')[:2])
     values.append(item['price'])
 
-##################################################
-# Generate Whatsapp
-##################################################
-account_sid = os.environ['ACCOUNT_SID']
-auth_token = os.environ['TWILIO_API_TOKEN']
-client = Client(account_sid, auth_token)
 
-twilio_number = os.environ['FROM_NUMBER']
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+bot = telebot.TeleBot(BOT_TOKEN)
 
-if ',' in os.environ['TEL_NUMBER']:
-    phonenumbers = os.environ['TEL_NUMBER'].split(',')
-else:
-    phonenumbers = [os.environ['TEL_NUMBER']]
 
-print(phonenumbers)
+@bot.message_handler(commands=['start', 'help'])
+def welcome(message: types.Message):
+    bot.reply_to(
+        message, "Hello! Im Energy price Bot, Please use /prijs to get the charts")
 
-for number in phonenumbers:
-    message = client.messages.create(
-        from_ = f"whatsapp:+{twilio_number}",
-        body=output,
-        media_url=f"https://raw.githubusercontent.com/dockerized-nl/energyprice/main/images/price_plot_{current_date.strftime('%Y-%m-%d')}.png",
-        to=f"whatsapp:+{number}"
-    )
 
-print(message.sid)
+@bot.message_handler(commands=['Gino', 'Jesse'])
+def welcome(message: types.Message):
+    bot.reply_to(message, "Gino & Jesse! Please help the bot is down!")
+
+# @bot.message_handler(func=lambda msg: True)
+# def echo_all(message):
+#    bot.reply_to(message, message.text)
+
+
+@bot.message_handler(commands=['prijs'])
+def logo(message: types.Message):
+    bot.send_photo(message.chat.id, open(
+        f"images/price_plot_{current_date.strftime('%Y-%m-%d')}.png", "rb"))
+    bot.reply_to(message, f"{output}")
+
+
+bot.infinity_polling()
