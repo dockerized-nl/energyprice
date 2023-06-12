@@ -1,50 +1,50 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: Price action workflow
+#name: Price action workflow
 
-on:
-  pull_request:
-    branches: [ "main" ]
-  schedule:
+#on:
+#  pull_request:
+#    branches: [ "main" ]
+#  schedule:
     # Runs "at minute 05 past 13 or 15 AMS time" (see https://crontab.guru)
-    - cron: '05 13 * * *'
+#    - cron: '05 13 * * *'
     
-permissions:
-  contents: read
+#permissions:
+#  contents: read
 
-jobs:
-  build:
+#jobs:
+#  build:
 
-    runs-on: ubuntu-latest
+#    runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v3
-      with: 
-        token: ${{ secrets.GHA }}
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests psycopg2 rich matplotlib datetime twilio
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Run the python script.
-      run: |
-        python price.py
-    - run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git add .
-        git commit -m "generated" --allow-empty
-        git push
-    - name: Run send-price.py
-      run: |
-        python send-price.py
-      env:
-          ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
-          FROM_NUMBER: ${{ secrets.FROM_NUMBER }}
-          TEL_NUMBER:  ${{ secrets.TEL_NUMBER }}
-          TWILIO_API_TOKEN:  ${{ secrets.TWILIO_API_TOKEN }}
+#    steps:
+#    - uses: actions/checkout@v3
+#      with: 
+#        token: ${{ secrets.GHA }}
+#    - name: Set up Python 3.10
+#      uses: actions/setup-python@v3
+#      with:
+#        python-version: "3.10"
+#    - name: Install dependencies
+#      run: |
+#        python -m pip install --upgrade pip
+#        pip install requests psycopg2 rich matplotlib datetime twilio
+#        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+#    - name: Run the python script.
+#      run: |
+#        python price.py
+#    - run: |
+#        git config user.name github-actions
+#        git config user.email github-actions@github.com
+#        git add .
+#        git commit -m "generated" --allow-empty
+#        git push
+#    - name: Run send-price.py
+#      run: |
+#        python send-price.py
+#      env:
+#          ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
+#          FROM_NUMBER: ${{ secrets.FROM_NUMBER }}
+#          TEL_NUMBER:  ${{ secrets.TEL_NUMBER }}
+#          TWILIO_API_TOKEN:  ${{ secrets.TWILIO_API_TOKEN }}
